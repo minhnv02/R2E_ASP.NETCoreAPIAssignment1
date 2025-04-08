@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Rookies_ASP.NETCoreAPI.API.Middlewares
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ErrorHandlingMiddleware
     {
         private readonly RequestDelegate _next;
@@ -22,7 +18,6 @@ namespace Rookies_ASP.NETCoreAPI.API.Middlewares
             try
             {
                 await _next(httpContext);
-
             }
             catch (Exception ex)
             {
@@ -32,10 +27,9 @@ namespace Rookies_ASP.NETCoreAPI.API.Middlewares
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class MiddlewareExtensions
     {
-        public static IApplicationBuilder UseMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ErrorHandlingMiddleware>();
         }

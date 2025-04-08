@@ -20,8 +20,9 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
         {
             return new ApiResponse
             {
-                Data = _taskService.GetTasks(),
-                Message = "Get Tasks Successfully!"
+                Message = "Get Tasks Successfully!",
+                StatusCode = 200,
+                Data = _taskService.GetTasks()
             };
         }
         [HttpGet("{id}")]
@@ -31,15 +32,15 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             if (task != null)
                 return new ApiResponse
                 {
-                    Data = task,
-                    Message = "Get Task Successfully!"
+                    StatusCode = 200,
+                    Message = "Get Task Successfully!",
+                    Data = _taskService.GetTasks()
                 };
-            else
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Get Task Failed!"
-                };
+            return new ApiResponse
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Get Task Failed!"
+            };
         }
         [HttpPost]
         public ApiResponse Add(RequestTaskDto taskDto)
@@ -48,19 +49,17 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             if (status == ConstantsStatus.Success)
             {
                 return new ApiResponse
-                {
-                    Data = taskDto,
-                    Message = "Add Task Successfully!"
+                {                    
+                    StatusCode = 200,
+                    Message = "Add Task Successfully!",
+                    Data = taskDto
                 };
             }
-            else
+            return new ApiResponse
             {
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Add Task Failed!"
-                };
-            }
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Add Task Failed!"
+            };
         }
         [HttpPut("{id}")]
         public ApiResponse Update(Guid id, [FromBody] RequestTaskDto taskDto)
@@ -70,18 +69,16 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             {
                 return new ApiResponse
                 {
-                    Data = taskDto,
-                    Message = "Update Task Successfully!"
+                    StatusCode = 200,
+                    Message = "Update Task Successfully!",
+                    Data = taskDto
                 };
             }
-            else
+            return new ApiResponse
             {
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Update Task Successfully!"
-                };
-            }
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Update Task Successfully!"
+            };
         }
         [HttpDelete("{id}")]
         public ApiResponse Delete(Guid id)
@@ -90,18 +87,17 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             if (status == ConstantsStatus.Success)
             {
                 return new ApiResponse
-                {                   
-                    Message = "Delete Tasks Successfully!"
+                {      
+                    StatusCode = 200,
+                    Message = "Delete Tasks Successfully!",
+                    Data = _taskService.Delete(id)
                 };
             }
-            else
+            return new ApiResponse
             {
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Delete Tasks Failed!"
-                };
-            }
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Delete Tasks Failed!"
+            };
         }
         [HttpPost("/bulk")]
         public ApiResponse BulkAdd(List<RequestTaskDto> taskDtos)
@@ -111,18 +107,16 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             {
                 return new ApiResponse
                 {
-                    Data = taskDtos,
-                    Message = "Bulk Add Tasks Successfully!"
+                    StatusCode = 200,
+                    Message = "Bulk Add Tasks Successfully!",
+                    Data = taskDtos
                 };
             }
-            else
+            return new ApiResponse
             {
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Bulk Add Tasks Failed!"
-                };
-            }
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Bulk Add Tasks Failed!"
+            };
         }
         [HttpDelete("/bulk")]
         public ApiResponse BulkDelete(List<Guid> ids)
@@ -132,7 +126,9 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
             {
                 return new ApiResponse
                 {
-                    Message = "Bulk Delete Tasks Successfully!"
+                    StatusCode = 200,
+                    Message = "Bulk Delete Tasks Successfully!",
+                    Data = _taskService.BulkDelete(ids)
                 };
             }
             else if (status == ConstantsStatusBulkDelete.OnlyValidRemoved)
@@ -142,14 +138,11 @@ namespace Rookies_ASP.NETCoreAPI.API.Controllers
                     Message = "Bulk Delete Tasks Successfully! Bulk Delete Only Existed Ids"
                 };
             }
-            else
+            return new ApiResponse
             {
-                return new ApiResponse
-                {
-                    StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Bulk Delete Tasks Failed!"
-                };
-            }
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Bulk Delete Tasks Failed!"
+            };
         }
     }
 }

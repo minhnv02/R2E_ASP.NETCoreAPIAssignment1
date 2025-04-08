@@ -8,7 +8,6 @@ namespace Rookies_ASP.NETCoreAPI.API.Dtos
     {
         public AutoMapperProfile()
         {
-            //configure mapping
             CreateMap<Infrastructure.Models.Task, ResponseTaskDto>();
             CreateMap<RequestTaskDto, Infrastructure.Models.Task>();
         }
